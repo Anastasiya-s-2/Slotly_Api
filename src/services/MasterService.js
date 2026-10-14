@@ -1,4 +1,4 @@
-const masterRepository = require('../repositories/masterRepository');
+const masterRepository = require('../repositories/MasterRepository');
 class MasterServices{
 async getAllMasters() {
 return await masterRepository.getAll();

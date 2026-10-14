@@ -14,7 +14,7 @@ return result.rows[0];
 }
 
 async create(masterData) {
-const {user_id,display_name,Bio, specialization, city} = masterData;
+const {user_id, display_name, bio, specialization, city} = masterData;
 const result = await pool.query(`insert into master_profiles(user_id, display_name, bio, specialization, city)
 values ($1, $2, $3, $4, $5)
 returning id, user_id, display_name, bio,specialization, city, created_at`,
@@ -23,7 +23,7 @@ return result.rows[0];
 }
 
 async update(id, masterData) {
-const {display_name,Bio,specialization,city} = masterData;
+const {display_name, bio, specialization, city} = masterData;
 const result = await pool.query(
         `update master_profiles
          set display_name = COALESCE($1, display_name),
