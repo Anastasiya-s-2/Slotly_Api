@@ -9,6 +9,7 @@ app.use(express.json());
 
 app.use('/api/masters', masterRoutes);
 app.use('/api/services', serviceRoutes);
+app.use('/api/availability-rules', availabilityRulesRoutes);
 
 const PORT = process.env.PORT || 3000;
 
