@@ -12,6 +12,15 @@ if(!service){
 throw new Error('Service not found');}
 return service;
 }
+
+async getByMasterId(id){
+const result = await serviceRepository.getByMasterId(id);
+if (result.length === 0) {
+return [];
+}
+return result;
+}
+
 async searchServiceByName(name) {
 if (!name || !name.trim()) {
 throw new Error('Service name is required');}

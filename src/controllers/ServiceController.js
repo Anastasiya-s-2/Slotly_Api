@@ -24,6 +24,19 @@ message: error.message
 }
 }
 
+async getByMasterId(req,res){
+try {
+const result = await servService.getByMasterId(req.params.id);
+//if(result === 0){
+//return res.status(200).json({result"});}
+res.status(200).json(result);
+}
+catch (error){
+res.status(500).json({message: error.message});
+}
+}
+
+
 async searchByName(req, res, next) {
 try {
 const { name } = req.query;

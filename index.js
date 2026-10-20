@@ -3,6 +3,7 @@ require('dotenv').config();
 
 const masterRoutes = require('./src/routes/MasterRoutes');
 const serviceRoutes = require('./src/routes/ServiceRoutes');
+const availabilityRulesRoutes = require('./src/routes/availabilityRoutes');
 
 const app = express();
 app.use(express.json());

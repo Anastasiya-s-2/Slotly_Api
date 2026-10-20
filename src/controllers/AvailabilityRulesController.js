@@ -1,4 +1,4 @@
-const arService = require('../services/AvailabilityRulesServiceService');
+const arService = require('../services/AvailabilityRulesService');
 
 class AvailabilityRulesController{
 async getAll(req,res){

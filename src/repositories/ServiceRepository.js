@@ -9,6 +9,12 @@ async getById(id) {
 const result = await pool.query(`select id, master_id, name, description,price, duration_minutes, is_active, created_at from services where id = $1 AND is_active = TRUE`, [id]);
 return result.rows[0];}
 
+async getByMasterId(id){
+const result = await pool.query('select id, master_id, name, description, price, duration_minutes, is_active, created_at from services where master_id = $1 and is_active=true', [id]);
+return result.rows;
+}
+
+
 async searchByName(name) {
 const result = await pool.query(`select id, master_id, name, description, price, duration_minutes, is_active, created_at from services where name ilike $1 AND is_active = true`, [`%${name}%`]);
 return result.rows;}

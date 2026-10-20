@@ -9,7 +9,6 @@ if (!result) {
 throw new Error('Master not found');}
 return result;
 }
-
 async searchMastersByName(name) {
 if (!name || !name.trim()) {
 throw new Error('Master name is required');}
