@@ -6,6 +6,11 @@ const [search,setSearch] = useState('');
 const [masters, setMasters] = useState([]);
 const [loading,setLoading] = useState(true);
 const [error, setError] = useState('');
+const [services, setServices] = useState([]);
+const [selectMaster, setSelectMaster] = useState(null);
+const [servicesLoading,setServicesLoading ] = useState(true);
+const [servicesError, setServicesError] = useState('');
+
 useEffect(()=>
 {
     async function fetchMasters(){
@@ -23,6 +28,23 @@ useEffect(()=>
            }
        finally{ setLoading(false);
            }
+        }
+    async function fetchServices(master){
+        setSelectMaster(master);
+        setServices([]);
+        setServicesError('');
+        setServicesLoading(true);
+    try {
+       const response = await fetch(`/api/services/master/${master.id}`);
+       if(!response.ok){
+           throw new Error("Не вдалось завантажити сервіси");
+           }
+       const data = await response.json();
+       setServicesError(data);}
+    catch(error){
+    setError(error.message);
+        }
+    finally{setServicesLoading(false);}
         }
     fetchMasters();}, []);
 const filteredMasters = masters.filter((master)=>
