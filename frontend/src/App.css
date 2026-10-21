@@ -67,11 +67,33 @@ background: #1d4ed8;
 color: white;
 font-size: 15px;
 cursor: pointer;
-
-
-
+}
+.service-card{
+display: flex;
+flex-direction: column;
+gap: 20px;
+padding: 24px;
+max-width: 360px;
+background: white;
+border: 1px solid #e5e7eb;
+border-radius: 16px;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+transition: transform 0.2s, box-shadow 0.2s;
+}
+.avr-card{
+display: flex;
+flex-direction: column;
+gap: 20px;
+padding: 24px;
+max-width: 360px;
+background: white;
+border: 1px solid #e5e7eb;
+border-radius: 16px;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+transition: transform 0.2s, box-shadow 0.2s;
 
 }
+
 #masters: {
 padding: 40px 8%;
 }

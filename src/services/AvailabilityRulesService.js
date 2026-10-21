@@ -9,6 +9,13 @@ if (!result) {
 throw new Error('not found');}
 return result;
 }
+async getByMasterId(id){
+const result = await arRepository.getByMasterId(id);
+if(!result){
+throw new Error('not found');
+}
+return result;
+}
 
 async searchByWeekday(weekday) {
 if (weekday == null || weekday < 0 || weekday > 6 || !Number.isInteger(Number(weekday))) {

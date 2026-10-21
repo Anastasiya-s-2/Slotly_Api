@@ -1,15 +1,26 @@
 import {useState,useEffect} from 'react';
 import './App.css';
 function App(){
-
+const weekdays = [
+'Неділя',
+'Понеділок',
+'Вівторок',
+'Середа',
+'Четвер',
+'П`ятниця',
+'Субота'];
 const [search,setSearch] = useState('');
 const [masters, setMasters] = useState([]);
 const [loading,setLoading] = useState(true);
 const [error, setError] = useState('');
 const [services, setServices] = useState([]);
 const [selectMaster, setSelectMaster] = useState(null);
-const [servicesLoading,setServicesLoading ] = useState(true);
+const [servicesLoading,setServicesLoading ] = useState(false);
 const [servicesError, setServicesError] = useState('');
+const [avrLoading, setAvrLoading] = useState(false);
+const [avrError, setAvrError]=useState('');
+const [avr, setAvr] = useState([]);
+
 
 useEffect(()=>
 {
@@ -30,6 +41,24 @@ useEffect(()=>
            }
         }
     fetchMasters();}, []);
+async function fetchAvR(master){
+    setAvr([]);
+    setSelectMaster(master);
+    setAvrError('');
+    setAvrLoading(true);
+    try{
+       const response = await fetch(`/api/availability-rules/masters/${master.id}`);
+       if(!response.ok){
+           throw new Error("Не вдалось завантажити робочий час")
+           }
+       const data = await response.json();
+       setAvr(data);}
+    catch(error){
+    setAvrError(error.message);
+        }
+    finally { setAvrLoading(false);
+        }
+    }
 async function fetchServices(master){
         setSelectMaster(master);
         setServices([]);
@@ -87,13 +116,17 @@ return (
                    <h3>{master.display_name}</h3>
                <button
                className = "master-button"
-               onClick={() => fetchServices(master)}>
+               onClick={() => {
+                   fetchServices(master);
+                   fetchAvR(master);
+                   }}>
                Переглянути послуги
                 </button>
                 </article>
                 </div>
            ))}
            </section>
+
            {selectMaster && (
               <section id="services" >
                   <h2> Послуги майстра {selectMaster.display_name}</h2>
@@ -110,6 +143,22 @@ return (
                       </article>))}
                       </section>
                       )}
+           {selectMaster && (
+              <section id = "availability">
+                  <h2> Графік роботи: {selectMaster.display_name} </h2>
+                  {avrLoading && <p> Завантаження графіка ... </p>}
+                  {avrError && <p> {avrError} </p> }
+                  {!avrLoading && !avrError && avr.length === 0 &&
+                      (<p> Графік поки відсутній </p>)}
+                  {!avrLoading && !avrError && avr.map((a)=>(
+                     <article key = {a.id} className = "avr-card" >
+                         <p> День тижня: {weekdays[a.weekday] ?? a.weekday}</p>
+                         <p> З {a.start_time} до {a.end_time} </p>
+                     </article>
+                      ))}
+                  </section>
+               )}
+
 
        </main>
     </div>);

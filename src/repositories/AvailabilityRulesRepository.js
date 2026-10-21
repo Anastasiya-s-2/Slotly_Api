@@ -4,6 +4,10 @@ async getAll(){
 const result = await pool.query("Select ar.id, ar.master_id, ar.weekday, ar.start_time, ar.end_time from availability_rules ar");
 return result.rows;
 }
+async getByMasterId(id){
+const result = await pool.query("Select ar.id, ar.master_id, ar.weekday, ar.start_time, ar.end_time from availability_rules ar where ar.master_id=$1", [id]);
+return result.rows;
+}
 async getById(id){
 const result = await pool.query("Select ar.id, ar.master_id, ar.weekday, ar.start_time, ar.end_time from availability_rules ar where ar.id=$1", [id]);
 return result.rows[0];

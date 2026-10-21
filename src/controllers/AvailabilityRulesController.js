@@ -24,6 +24,20 @@ message: error.message
 }
 }
 
+async getByMasterId(req,res){
+try {
+const result = await arService.getByMasterId(req.params.id);
+if (!result) {return res.status(404).json({
+message: "ar not found"});}
+res.status(200).json(result);}
+catch (error) {
+res.status(500).json({
+message: error.message
+});
+}
+
+}
+
 async searchByWeekday(req, res) {
 try {
 const { weekday } = req.query;
