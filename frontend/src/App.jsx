@@ -29,7 +29,8 @@ useEffect(()=>
        finally{ setLoading(false);
            }
         }
-    async function fetchServices(master){
+    fetchMasters();}, []);
+async function fetchServices(master){
         setSelectMaster(master);
         setServices([]);
         setServicesError('');
@@ -40,13 +41,14 @@ useEffect(()=>
            throw new Error("Не вдалось завантажити сервіси");
            }
        const data = await response.json();
-       setServicesError(data);}
+       setServices(data);}
     catch(error){
-    setError(error.message);
+    setServicesError(error.message);
         }
+
     finally{setServicesLoading(false);}
         }
-    fetchMasters();}, []);
+
 const filteredMasters = masters.filter((master)=>
 (master.display_name ?? '').toLowerCase().includes(search.toLowerCase()));
 
@@ -85,13 +87,30 @@ return (
                    <h3>{master.display_name}</h3>
                <button
                className = "master-button"
-               onClick={() =>console.log("Обраний майстер", master.id)}>
+               onClick={() => fetchServices(master)}>
                Переглянути послуги
                 </button>
                 </article>
                 </div>
            ))}
            </section>
+           {selectMaster && (
+              <section id="services" >
+                  <h2> Послуги майстра {selectMaster.display_name}</h2>
+                  {servicesLoading && <p> Завантаження послуг </p>}
+                  {servicesError && <p> {servicesError} </p>}
+                  {!servicesLoading && !servicesError && services.length === 0 &&
+                      (<p> У цього масйтра поки нема послуг </p>)}
+                  {!servicesLoading && !servicesError && services.map((service) => (
+                  <article key={service.id}  className = "service-card">
+                      <h3>{service.name}</h3>
+                      <p>{service.description}</p>
+                      <p>Ціна: {service.price} грн </p>
+                      <p> Тривалість: {service.duration_minutes} хв </p>
+                      </article>))}
+                      </section>
+                      )}
+
        </main>
     </div>);
 }
